@@ -66,7 +66,7 @@ async function fetchTasks() {
       headers: { "Content-Type": "application/json" ,'Access-Control-Allow-Origin': '*'},
     };
   try {
-    const response = await fetch('/api/task',requestOptions);
+    const response = await fetch('http://vue-js-todo-backend.onrender.com/api/task',requestOptions);
     const tasks = await response.json();
     todos.value = tasks;
     console.log(tasks, "a")
