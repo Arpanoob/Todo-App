@@ -27,7 +27,7 @@ async function deleteTask(id) {
     const requestOptions = {
       method: "DELETE",
     };
-    const response = await fetch(`http://vue-js-todo-backend.onrender.com/api/task/${id}`, requestOptions)
+    const response = await fetch(`/api/task/${id}`, requestOptions)
 
   } catch (error) {
     console.error(error);
@@ -45,7 +45,7 @@ async function createTask(text) {
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ text: text })
     };
-    const response = await fetch("http://vue-js-todo-backend.onrender.com/api/task", requestOptions)
+    const response = await fetch("/api/task", requestOptions)
   } catch (error) {
     console.error(error);
   }
@@ -62,7 +62,7 @@ async function addNewTodo() {
 }
 async function fetchTasks() {
   try {
-    const response = await fetch('http://vue-js-todo-backend.onrender.com/api/task');
+    const response = await fetch('/api/task');
     const tasks = await response.json();
     todos.value = tasks;
     console.log(tasks, "a")
@@ -83,7 +83,7 @@ async function updateTodoStatus(todo) {
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ isCompleted: todo.isCompleted }) // Change to 'completed' instead of 'isCompleted'
     };
-    const response = await fetch(`http://vue-js-todo-backend.onrender.com/api/task/${todo.id}`, requestOptions);
+    const response = await fetch(`/api/task/${todo.id}`, requestOptions);
     if (!response.ok) {
       throw new Error('Failed to update task status');
     }
@@ -97,7 +97,7 @@ async function updateTodoStatus(todo) {
 async function callTheApi(selectedPriority) {
   // Convert the string value to boolean
 
-  const response = await fetch(`http://vue-js-todo-backend.onrender.com/api/task/${selectedPriority}`);
+  const response = await fetch(`/api/task/${selectedPriority}`);
   const tasks = await response.json();
   todos.value = tasks;
 }

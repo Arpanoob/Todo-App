@@ -11,9 +11,9 @@ export default defineConfig({
       "@": fileURLToPath(new URL("./src", import.meta.url)),
     },
   },
-  server:{
-    proxy:{
-      '/api': 'http://vue-js-todo-backend.onrender.com/',
-    }
-  }
+  server: {
+    proxy: {
+      "/api": "http://vue-js-todo-backend.onrender.com/api/task",
+    },
+  },
 });
