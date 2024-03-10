@@ -13,7 +13,7 @@ export default defineConfig({
   },
   server: {
     proxy: {
-      "/api": "http://vue-js-todo-backend.onrender.com/api/task",
+      "/api": "http://vue-js-todo-backend.onrender.com",
     },
     
   },
