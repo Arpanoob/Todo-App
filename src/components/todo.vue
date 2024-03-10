@@ -62,7 +62,7 @@ async function addNewTodo() {
 }
 async function fetchTasks() {
   try {
-    const response = await fetch('/api/task');
+    const response = await fetch('https://vue-js-todo-backend.onrender.com/api/task');
     const tasks = await response.json();
     todos.value = tasks;
     console.log(tasks, "a")
