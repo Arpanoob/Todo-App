@@ -3,6 +3,10 @@ import { onMounted, ref } from 'vue'
 
 const selectedPriority = ref(''); // Define selectedPriority as a ref variable
 
+
+const loading = ref(false); // Define selectedPriority as a ref variable
+
+
 const dateString = "2024-03-09T19:41:55.983Z";
 
 const options = {
@@ -62,15 +66,17 @@ async function addNewTodo() {
 }
 async function fetchTasks() {
   try {
+    loading.value = true; // Set loading to true before fetching tasks
     const response = await fetch('https://vue-js-todo-backend.onrender.com/api/task');
     const tasks = await response.json();
     todos.value = tasks;
-    console.log(tasks, "a")
-  }
-  catch (e) {
-    console.log(e)
+    loading.value = false; // Set loading to false after tasks are fetched
+  } catch (e) {
+    console.log(e);
+    loading.value = false; // Ensure loading is set to false even if there's an error
   }
 }
+
 onMounted(async () => {
 
   await fetchTasks();
@@ -78,17 +84,23 @@ onMounted(async () => {
 async function updateTodoStatus(todo) {
   console.log(todo)
   try {
+
     const requestOptions = {
       method: "PUT",
       headers: { "Content-Type": "application/json", 'Access-Control-Allow-Origin': '*' },
       body: JSON.stringify({ isCompleted: todo.isCompleted }) // Change to 'completed' instead of 'isCompleted'
     };
+    loading.value = true;
     const response = await fetch(`https://vue-js-todo-backend.onrender.com/api/task/${todo.id}`, requestOptions);
     if (!response.ok) {
       throw new Error('Failed to update task status');
-    }
+
+    } loading.value = false
+  selectedPriority.value = ''; // Reset the dropdown to "All"
+  await callTheApi(selectedPriority.value); 
     // Handle success if necessary
   } catch (error) {
+    loading.value = false
     console.error('Error updating task status:', error);
     // Handle error
   }
@@ -97,20 +109,26 @@ async function updateTodoStatus(todo) {
 async function callTheApi(selectedPriority) {
   // Convert the string value to boolean
 
+  loading.value = true;
   const response = await fetch(`https://vue-js-todo-backend.onrender.com/api/task/${selectedPriority}`);
   const tasks = await response.json();
+  loading.value = false;
   todos.value = tasks;
+
+  
 }
 
 </script>
 
 <template>
+
   <div class="container">
     <div class="form-container">
       <form @submit.prevent="addNewTodo">
         <label class="heading" for="new-todo">Add a todo</label>
         <br />
         <input v-model="newTodoText" id="new-todo" class="new-todo" placeholder="E.g. Feed the cat" />
+        <br />
         <button class="Add">Add</button>
         <br />
         <label class="filter" for="new-todo">Filter</label><br />
@@ -127,35 +145,31 @@ async function callTheApi(selectedPriority) {
         Todo List
       </label>
       <div class="listparent">
-        <div class="list">
+        <div v-if="loading">Loading...</div>
+        <!-- Actual list rendering -->
+        <div v-else class="list">
           <ol>
             <li v-for="todo in todos" :key="todo.id">
               <div class='li'>
                 <input type="checkbox" v-model="todo.isCompleted" @change="updateTodoStatus(todo)">
-                <h6 :class="{ 'completed': todo.isCompleted }">{{ todo.text }}</h6>
+                <h4 :class="{ 'completed': todo.isCompleted }">{{ todo.text }}</h4>
                 <button @click="removeTodo(todo)">Remove</button>
 
 
               </div>
               <h6> Created At : {{
         new Date(todo.createdAt).toLocaleString("en-US", options)
-      }}</h6>
+                }}</h6>
             </li>
           </ol>
         </div>
       </div>
+
     </div>
   </div>
 </template>
 
 <style>
-.vsc-initialized,
-#app {
-  display: flex;
-  justify-content: space-between;
-  align-items: start;
-}
-
 .filter {
   font-size: 50px;
   font-weight: bold;
@@ -177,11 +191,10 @@ async function callTheApi(selectedPriority) {
   padding: 12px;
   display: flex;
   justify-content: space-between;
+
   align-items: center;
   border: 1px solid rgb(32, 10, 6);
-  /* Adding border style and width */
   border-radius: 8px;
-  /* Adding border radius for rounded corners */
   font-family: Georgia, 'Times New Roman', Times, serif;
   margin-top: 10px;
   margin-right: 10px;
@@ -190,15 +203,13 @@ async function callTheApi(selectedPriority) {
 .container {
   width: 100%;
   height: 100%;
-  padding: 50px;
   display: flex;
   flex-direction: row;
   justify-content: space-between;
-  gap: 100px;
-  overflow: scroll;
+  flex-wrap: wrap;
+  padding-top: 66px;
 }
 
-/* Apply styles to form and list containers */
 .form-container {
   width: 500px;
   height: 500px;
@@ -210,12 +221,12 @@ async function callTheApi(selectedPriority) {
 }
 
 .list {
-  overflow-y: auto;
+  overflow-y: scroll;
+  height: 100%;
 }
 
 .listparent {
   border: 1px solid rgb(32, 10, 6);
-  /* Adding border style and width */
   border-color: rgb(32, 10, 6);
   border-radius: 20px;
   height: 501px;
@@ -225,8 +236,6 @@ async function callTheApi(selectedPriority) {
   scroll-margin-block: 10px;
 }
 
-
-/* Add any additional styling as needed */
 
 .completed {
   text-decoration: line-through;
