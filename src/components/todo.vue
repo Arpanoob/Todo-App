@@ -17,7 +17,7 @@ const options = {
 
 
 const newTodoText = ref('')
-const todos = ref([ ])
+const todos = ref([])
 
 let nextTodoId = 4
 
@@ -61,12 +61,8 @@ async function addNewTodo() {
   await callTheApi(selectedPriority.value); // Refresh the list based on the new filter
 }
 async function fetchTasks() {
-  const requestOptions = {
-      method: "GET",
-      headers: { "Content-Type": "application/json" ,'Access-Control-Allow-Origin': '*'},
-    };
   try {
-    const response = await fetch('http://vue-js-todo-backend.onrender.com/api/task',requestOptions);
+    const response = await fetch('/api/task');
     const tasks = await response.json();
     todos.value = tasks;
     console.log(tasks, "a")
@@ -84,7 +80,7 @@ async function updateTodoStatus(todo) {
   try {
     const requestOptions = {
       method: "PUT",
-      headers: { "Content-Type": "application/json" ,'Access-Control-Allow-Origin': '*'},
+      headers: { "Content-Type": "application/json", 'Access-Control-Allow-Origin': '*' },
       body: JSON.stringify({ isCompleted: todo.isCompleted }) // Change to 'completed' instead of 'isCompleted'
     };
     const response = await fetch(`/api/task/${todo.id}`, requestOptions);

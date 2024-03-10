@@ -11,10 +11,12 @@ export default defineConfig({
       "@": fileURLToPath(new URL("./src", import.meta.url)),
     },
   },
+  define: {
+    "process.env.NODE_ENV": '"production"',
+  },
   server: {
     proxy: {
-      "/api": "http://vue-js-todo-backend.onrender.com",
+      "/api": "https://vue-js-todo-backend.onrender.com/",
     },
-    
   },
 });
