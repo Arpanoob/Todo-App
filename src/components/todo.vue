@@ -103,6 +103,7 @@ async function callTheApi(selectedPriority) {
 }
 
 </script>
+
 <template>
   <div class="container">
     <div class="form-container">
@@ -131,14 +132,14 @@ async function callTheApi(selectedPriority) {
             <li v-for="todo in todos" :key="todo.id">
               <div class='li'>
                 <input type="checkbox" v-model="todo.isCompleted" @change="updateTodoStatus(todo)">
-                <span :class="{ 'completed': todo.isCompleted }">{{ todo.text }}</span>
+                <h6 :class="{ 'completed': todo.isCompleted }">{{ todo.text }}</h6>
                 <button @click="removeTodo(todo)">Remove</button>
 
 
               </div>
-              <span> Created At : {{
+              <h6> Created At : {{
         new Date(todo.createdAt).toLocaleString("en-US", options)
-                }}</span>
+      }}</h6>
             </li>
           </ol>
         </div>
@@ -148,8 +149,11 @@ async function callTheApi(selectedPriority) {
 </template>
 
 <style>
-body {
-  top: 0%
+.vsc-initialized,
+#app {
+  display: flex;
+  justify-content: space-between;
+  align-items: start;
 }
 
 .filter {
@@ -184,22 +188,29 @@ body {
 }
 
 .container {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  /* Two columns, 1/3 and 2/3 of the available space */
-  gap: 400px;
-  /* Spacing between grid items */
+  width: 100%;
+  height: 100%;
+  padding: 50px;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  gap: 100px;
+  overflow: scroll;
 }
 
 /* Apply styles to form and list containers */
 .form-container {
-  padding-bottom: 200px;
+  width: 500px;
+  height: 500px;
+}
+
+.list-container {
+  width: 500px;
+  height: 500px;
 }
 
 .list {
-  height: 470px;
   overflow-y: auto;
-
 }
 
 .listparent {
@@ -214,11 +225,6 @@ body {
   scroll-margin-block: 10px;
 }
 
-.list-container {
-  top: 50px;
-  width: 500px;
-  height: 500px;
-}
 
 /* Add any additional styling as needed */
 
