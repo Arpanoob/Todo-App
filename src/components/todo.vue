@@ -152,7 +152,7 @@ async function callTheApi(selectedPriority) {
             <li v-for="todo in todos" :key="todo.id">
               <div class='li'>
                 <input type="checkbox" v-model="todo.isCompleted" @change="updateTodoStatus(todo)">
-                <h4 :class="{ 'completed': todo.isCompleted }">{{ todo.text }}</h4>
+                <label id=h4 :class="{ 'completed': todo.isCompleted }">{{ todo.text }}</label>
                 <button @click="removeTodo(todo)">Remove</button>
 
 
@@ -210,9 +210,12 @@ async function callTheApi(selectedPriority) {
   padding-top: 66px;
 }
 
-.h4 {
+#h4 {
   font-weight: bold;
   font-size: medium;
+  font-weight: bold;
+
+  font-family: Arial, Helvetica, sans-serif;
 }
 
 .form-container {
