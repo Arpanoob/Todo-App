@@ -229,7 +229,7 @@ async function callTheApi(selectedPriority) {
 }
 
 .list {
-  overflow-y: scroll;
+  overflow-y: auto;
   height: 100%;
 }
 
@@ -254,6 +254,7 @@ async function callTheApi(selectedPriority) {
   width: 400px;
   height: 50px;
   font-size: medium;
+  padding: 10px;
 }
 
 .Add {
