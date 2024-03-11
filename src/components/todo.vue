@@ -96,8 +96,8 @@ async function updateTodoStatus(todo) {
       throw new Error('Failed to update task status');
 
     } loading.value = false
-  selectedPriority.value = ''; // Reset the dropdown to "All"
-  await callTheApi(selectedPriority.value); 
+    selectedPriority.value = ''; // Reset the dropdown to "All"
+    await callTheApi(selectedPriority.value);
     // Handle success if necessary
   } catch (error) {
     loading.value = false
@@ -115,7 +115,7 @@ async function callTheApi(selectedPriority) {
   loading.value = false;
   todos.value = tasks;
 
-  
+
 }
 
 </script>
@@ -159,7 +159,7 @@ async function callTheApi(selectedPriority) {
               </div>
               <h6> Created At : {{
         new Date(todo.createdAt).toLocaleString("en-US", options)
-                }}</h6>
+      }}</h6>
             </li>
           </ol>
         </div>
@@ -208,6 +208,10 @@ async function callTheApi(selectedPriority) {
   justify-content: space-between;
   flex-wrap: wrap;
   padding-top: 66px;
+}
+
+h4 {
+  font-weight: bolder;
 }
 
 .form-container {
